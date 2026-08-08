@@ -1,4 +1,7 @@
 export type SensoryClassification = 'High' | 'Low' | 'Data unavailable'
+export type RouteDataStatus = 'available' | 'unavailable'
+export type DataFreshness = 'fresh' | 'stale' | 'illustrative'
+export type AsyncState = 'idle' | 'loading' | 'success' | 'empty' | 'error'
 export type PredictionStatus =
   | 'Higher pedestrian activity likely'
   | 'Lower pedestrian activity likely'
@@ -36,6 +39,22 @@ export interface PeakHourContext {
   timezone: string
 }
 
+export interface PredictionEligibility {
+  validSensor: boolean
+  sameSensor: boolean
+  sameHour: boolean
+  sameDayType: boolean
+  comparableReadingCount: number
+  eligible: boolean
+}
+
+export interface PedestrianActivity {
+  averagePedestriansPerMinute: number | null
+  classification: SensoryClassification
+  dataStatus: RouteDataStatus
+  observedAt: string | null
+}
+
 export interface PredictionResult {
   eligible: boolean
   status: PredictionStatus
@@ -67,7 +86,7 @@ export interface RouteOption {
   sensorId: string | null
   sensorName: string | null
   isLowerStimulationAlternative: boolean
-  dataStatus: 'available' | 'unavailable'
+  dataStatus: RouteDataStatus
   highCongestionSegment?: string | null
   prediction: PredictionResult
   nearbyTransport?: NearbyTransportConnection | null
@@ -107,6 +126,13 @@ export interface HistoricalDataPoint {
   label: string
   averagePedestriansPerMinute: number
   sampleCount: number
+}
+
+export interface QuieterTimeInsight {
+  label: 'Illustrative insight'
+  timeWindow: string
+  explanation: string
+  guidanceOnly: true
 }
 
 export interface HistoricalTrendResult {

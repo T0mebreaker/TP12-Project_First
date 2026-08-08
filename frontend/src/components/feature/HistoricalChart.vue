@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, useId } from 'vue'
 import type { HistoricalDataPoint } from '@/types/domain'
 
 const props = defineProps<{ points: HistoricalDataPoint[] }>()
@@ -11,12 +11,15 @@ const x = (hour: number) => pad.left + (hour / 23) * (width - pad.left - pad.rig
 const y = (value: number) => pad.top + (1 - value / maxY.value) * (height - pad.top - pad.bottom)
 const path = computed(() => props.points.map((p, i) => `${i ? 'L' : 'M'} ${x(p.hour)} ${y(p.averagePedestriansPerMinute)}`).join(' '))
 const ticks = computed(() => [0, maxY.value * .25, maxY.value * .5, maxY.value * .75, maxY.value])
+const chartId = useId()
+const titleId = `${chartId}-title`
+const descriptionId = `${chartId}-description`
 </script>
 <template>
   <div class="chart-wrap">
-    <svg class="chart-svg" :viewBox="`0 0 ${width} ${height}`" role="img" aria-labelledby="history-chart-title history-chart-desc">
-      <title id="history-chart-title">Historical pedestrian activity by hour</title>
-      <desc id="history-chart-desc">A line chart of average pedestrians per minute by hour. A text summary appears below the chart.</desc>
+    <svg class="chart-svg" :viewBox="`0 0 ${width} ${height}`" role="img" :aria-labelledby="`${titleId} ${descriptionId}`">
+      <title :id="titleId">Historical pedestrian activity by hour</title>
+      <desc :id="descriptionId">A line chart of average pedestrians per minute by hour. A text summary appears below the chart.</desc>
       <g v-for="tick in ticks" :key="tick">
         <line class="chart-gridline" :x1="pad.left" :x2="width-pad.right" :y1="y(tick)" :y2="y(tick)" />
         <text class="chart-label" :x="pad.left-8" :y="y(tick)+4" text-anchor="end">{{ tick.toFixed(0) }}</text>

@@ -3,6 +3,8 @@ import { onBeforeUnmount, onMounted, ref, watch } from 'vue'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import type { RouteOption } from '@/types/domain'
+import { env } from '@/config/env'
+import { mapPalette } from '@/styles/designTokens'
 
 const props = defineProps<{ routes: RouteOption[]; selectedRouteId: string | null }>()
 const emit = defineEmits<{ select: [id: string] }>()
@@ -13,9 +15,9 @@ let routeLayers: L.Polyline[] = []
 let markerLayers: L.CircleMarker[] = []
 
 const lineStyles = [
-  { color: '#2563eb', weight: 5, opacity: 0.9 },
-  { color: '#0f766e', weight: 4, opacity: 0.85, dashArray: '8 6' },
-  { color: '#64748b', weight: 4, opacity: 0.8, dashArray: '4 7' },
+  { color: mapPalette.primaryRoute, weight: 5, opacity: 0.9 },
+  { color: mapPalette.alternateRoute, weight: 4, opacity: 0.85, dashArray: '8 6' },
+  { color: mapPalette.unavailableRoute, weight: 4, opacity: 0.8, dashArray: '4 7' },
 ]
 
 function renderRoutes() {
@@ -40,8 +42,8 @@ function renderRoutes() {
   const first = props.routes[0]?.geometry.coordinates[0]
   const lastCoordinates = props.routes[0]?.geometry.coordinates
   const last = lastCoordinates?.[lastCoordinates.length - 1]
-  if (first) markerLayers.push(L.circleMarker([first.latitude, first.longitude], { radius: 7, color: '#1262c4', fillOpacity: 1 }).addTo(map))
-  if (last) markerLayers.push(L.circleMarker([last.latitude, last.longitude], { radius: 7, color: '#0f172a', fillOpacity: 1 }).addTo(map))
+  if (first) markerLayers.push(L.circleMarker([first.latitude, first.longitude], { radius: 7, color: mapPalette.primaryRoute, fillOpacity: 1 }).addTo(map))
+  if (last) markerLayers.push(L.circleMarker([last.latitude, last.longitude], { radius: 7, color: mapPalette.destination, fillOpacity: 1 }).addTo(map))
   if (bounds.length) map.fitBounds(bounds as L.LatLngBoundsExpression, { padding: [24, 24] })
 }
 
@@ -49,9 +51,7 @@ onMounted(() => {
   try {
     if (!mapElement.value) return
     map = L.map(mapElement.value, { zoomControl: true, scrollWheelZoom: false }).setView([-37.814, 144.963], 15)
-    const tileUrl = import.meta.env.VITE_MAP_TILE_URL || 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-    const attribution = import.meta.env.VITE_MAP_ATTRIBUTION || '&copy; OpenStreetMap contributors'
-    const tiles = L.tileLayer(tileUrl, { maxZoom: 19, attribution }).addTo(map)
+    const tiles = L.tileLayer(env.mapTileUrl, { maxZoom: 19, attribution: env.mapAttribution }).addTo(map)
     tiles.on('tileerror', () => { failed.value = true })
     renderRoutes()
   } catch {

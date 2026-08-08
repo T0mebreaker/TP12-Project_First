@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { env } from '@/config/env'
 
 export class ApiClientError extends Error {
   code?: string
@@ -11,7 +12,7 @@ export class ApiClientError extends Error {
 }
 
 export const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api',
+  baseURL: env.apiBaseUrl,
   timeout: 12000,
   headers: { 'Content-Type': 'application/json' },
 })

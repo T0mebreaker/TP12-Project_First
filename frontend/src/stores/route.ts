@@ -28,6 +28,8 @@ export const useRouteStore = defineStore('route', () => {
 
   async function search(request: RouteRequest) {
     loading.value = true
+    response.value = null
+    selectedRouteId.value = null
     error.value = null
     errorCode.value = null
     try {

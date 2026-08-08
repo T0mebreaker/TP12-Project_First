@@ -1,11 +1,13 @@
 import type { HistoricalTrendResult, LocationDetail, NearbyPlacesResult } from '@/types/domain'
+import { mockDelay } from './config'
 
 const locations: Record<string, { name: string; latitude: number; longitude: number; latest: number; observed: string }> = {
   '5': { name: 'Princes Bridge', latitude: -37.81874249, longitude: 144.96787656, latest: 328, observed: '2026-08-05T16:15:00+10:00' },
   '3': { name: 'Melbourne Central', latitude: -37.81101524, longitude: 144.96429485, latest: 74, observed: '2026-08-06T11:52:00+10:00' },
 }
 
-export async function getMockLocationDetail(id: string): Promise<LocationDetail> {
+export async function getMockLocationDetail(id: string, scenario?: string): Promise<LocationDetail> {
+  await mockDelay()
   const l = locations[id] || locations['5']
   return {
     id,
@@ -14,7 +16,7 @@ export async function getMockLocationDetail(id: string): Promise<LocationDetail>
     latestPedestriansPerMinute: l.latest,
     latestObservedAt: l.observed,
     dataFreshness: 'Illustrative frontend fallback · not live',
-    stale: true,
+    stale: scenario === 'stale',
     interpretation: 'This is an illustrative one-minute pedestrian count, not an official sensory or crowd-level classification.',
     dataSource: 'Frontend Mock mode',
     sampleData: true,
@@ -27,7 +29,8 @@ export async function getMockLocationDetail(id: string): Promise<LocationDetail>
 
 const historyValues = [8, 6, 5, 4, 4, 6, 10, 23, 38, 42, 35, 31, 34, 41, 46, 50, 58, 72, 65, 48, 35, 27, 19, 12]
 
-export async function getMockHistoricalTrend(id: string): Promise<HistoricalTrendResult> {
+export async function getMockHistoricalTrend(id: string, scenario?: string): Promise<HistoricalTrendResult> {
+  await mockDelay()
   const location = locations[id] || locations['5']
   const points = historyValues.map((averagePedestriansPerMinute, hour) => ({
     hour,
@@ -38,8 +41,8 @@ export async function getMockHistoricalTrend(id: string): Promise<HistoricalTren
   return {
     locationId: id,
     locationName: location.name,
-    available: true,
-    points,
+    available: scenario !== 'insufficient',
+    points: scenario === 'insufficient' ? [] : points,
     higherActivityPeriod: '17:00 · illustrative average 72 pedestrians/min',
     lowerActivityPeriod: '03:00 · illustrative average 4 pedestrians/min',
     summary: 'Illustrative fallback: activity is higher in the late afternoon and lower overnight in this mock profile.',
@@ -49,7 +52,8 @@ export async function getMockHistoricalTrend(id: string): Promise<HistoricalTren
   }
 }
 
-export async function getMockNearbyPlaces(id: string): Promise<NearbyPlacesResult> {
+export async function getMockNearbyPlaces(id: string, scenario?: string): Promise<NearbyPlacesResult> {
+  await mockDelay()
   const location = locations[id] || locations['5']
   const places = id === '3'
     ? [
@@ -65,7 +69,7 @@ export async function getMockNearbyPlaces(id: string): Promise<NearbyPlacesResul
   return {
     locationId: id,
     locationName: location.name,
-    places,
+    places: scenario === 'empty' ? [] : places,
     limitation: 'These places are suggested using public category data and have not been verified as quiet or sensory-friendly.',
     dataSource: 'Frontend Mock mode · City of Melbourne category-shaped sample',
     guidanceOnly: true,

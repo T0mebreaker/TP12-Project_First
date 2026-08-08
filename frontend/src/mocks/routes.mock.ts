@@ -1,4 +1,5 @@
 import type { RouteRequest, RouteResponse } from '@/types/domain'
+import { mockDelay } from './config'
 
 const origin = {
   id: '5',
@@ -27,6 +28,7 @@ function isPeakHour(value: string): boolean {
 }
 
 export async function getMockRouteResponse(request?: RouteRequest): Promise<RouteResponse> {
+  await mockDelay()
   const req: RouteRequest = request || {
     originId: origin.id,
     destinationId: destination.id,
@@ -34,6 +36,7 @@ export async function getMockRouteResponse(request?: RouteRequest): Promise<Rout
     scenario: 'HIGH_LOW',
   }
   const scenario = (req.scenario || 'HIGH_LOW').toUpperCase().replaceAll('-', '_')
+  if (scenario === 'API_ERROR') throw new Error('The illustrative route service is temporarily unavailable. Please try again.')
   const baseLimitation = 'This result is based on available pedestrian data and historical patterns only. Actual conditions may differ.'
   const response: RouteResponse = {
     request: req,
@@ -187,6 +190,11 @@ export async function getMockRouteResponse(request?: RouteRequest): Promise<Rout
     prediction.status = 'Higher pedestrian activity likely'
     prediction.predictedAveragePedestriansPerMinute = 74
     prediction.affectedArea = 'Princes Bridge approach'
+  } else if (scenario === 'PREDICTION_LOW') {
+    const prediction = response.routes[0].prediction
+    prediction.status = 'Lower pedestrian activity likely'
+    prediction.predictedAveragePedestriansPerMinute = 60
+    prediction.comparableReadingCount = 4
   } else if (scenario === 'PREDICTION_UNAVAILABLE') {
     for (const route of response.routes) {
       route.prediction.eligible = false
