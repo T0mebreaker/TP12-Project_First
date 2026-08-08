@@ -1,0 +1,15 @@
+landmark,Location_ID,Sensor_Description,latitude,longitude,hourly_completeness_pct,mean_hourly_count,minute_rows_in_window,recommended_for_mvp
+Melbourne Central,3,Melbourne Central,-37.81101524,144.96429485,99.93,1145.7,4197.0,True
+Melbourne Central,47,Melbourne Central-Elizabeth St (East),-37.81258467,144.9625775,99.93,929.1,957.0,False
+Princes Bridge,5,Princes Bridge,-37.81874249,144.96787656,99.78,1111.8,978.0,True
+Southern Cross Station,9,Southern Cross Station,-37.81982992,144.95102555,99.63,517.3,3475.0,True
+Southern Cross Station,133,I-Hub Southern Cross Station - Lonsdale Street Entrance - South,-37.81531435,144.95227769,99.93,642.8,983.0,False
+Southern Cross Station,135,I-Hub Southern Cross Station - Bourke Street Entrance - South,-37.8172861,144.95319102,99.63,460.5,958.0,False
+Southern Cross Station,134,I-Hub Southern Cross Station - Bourke Street Entrance - North,-37.81694221,144.95303935,99.93,509.9,974.0,False
+QV Market,27,QV Market-Peel St,-37.80606888,144.95644692,99.78,180.2,818.0,False
+QV Market,48,QVM-Queen St (East),-37.80631581,144.95866697,73.36,375.6,855.0,False
+QV Market,51,QVM-Franklin St (North),-37.80841815,144.95906316,99.93,129.0,2412.0,True
+QV Market,49,QVM-Therry St (South),-37.80730068,144.95956055,99.93,407.4,943.0,False
+Collins Street,53,Collins Street (North),-37.81564191,144.965499,99.93,552.5,3592.0,True
+Bourke Street Mall,1,Bourke Street Mall (North),-37.81349441,144.96515323,99.93,996.8,3567.0,True
+Bourke Street Mall,2,Bourke Street Mall (South),-37.81380668,144.96516718,99.93,694.8,3580.0,True

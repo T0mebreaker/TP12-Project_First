@@ -1,0 +1,7 @@
+location_id,sensor_description,sensor_name,installation_date,note,location_type,status,direction_1,direction_2,latitude,longitude,source_sensor_ids
+3,Melbourne Central,Swa295_T,2009-03-25,,Outdoor,A,North,South,-37.81101524,144.96429485,3
+5,Princes Bridge,PriNW_T,2009-03-26,Replace with: 00:6e:02:01:9e:54,Outdoor,A,North,South,-37.81874249,144.96787656,5
+9,Southern Cross Station,Col700_T,2009-03-23,,Outdoor,A,East,West,-37.81982992,144.95102555,9
+51,QVM-Franklin St (North),Fra118_T,2017-11-30,"Pushbox Upgrade, 20/07/2023",Outdoor,A,East,West,-37.80841815,144.95906316,51
+53,Collins Street (North),Col254_T,2015-09-23,,Outdoor,A,East,West,-37.81564191,144.965499,53
+9001,Bourke Street Mall (combined Bourke Street Mall (North) + Bourke Street Mall (South)),COMBINED,2009-03-24,"Landmark-level average of sensors 1, 2",Outdoor,A,East,West,-37.813650545,144.96516020500002,"1,2"

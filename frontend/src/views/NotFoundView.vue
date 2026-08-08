@@ -1,0 +1,2 @@
+<script setup lang="ts">import AppLayout from '@/layouts/AppLayout.vue'</script>
+<template><AppLayout><section class="page-section"><div class="page-shell"><h1 class="page-title">Page not found</h1><p class="page-subtitle">Return to the route planner to continue.</p><div class="hero-actions"><RouterLink to="/home" class="base-button base-button--primary">Go to route planner</RouterLink></div></div></section></AppLayout></template>

@@ -1,0 +1,12 @@
+Sensors: 6
+Hourly rows: 8052
+Minute rows: 18589
+Landmarks: 38
+Hourly date range: 2025-09-15 -> 2025-11-09
+Minute time range: 2026-08-02T23:55:00+10:00 -> 2026-08-06T11:55:00+10:00
+Default demo exact records:
+  sensor 5: 91.85/min -> High
+  sensor 3: 51.08/min -> Low
+Next-hour weekday 18:00 comparable readings:
+  sensor 5: n=40, avg=36.13/min
+  sensor 3: n=40, avg=40.24/min
