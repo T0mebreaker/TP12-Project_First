@@ -191,6 +191,7 @@ Spring Boot Backend
      |
      v
 Packaged cleaned CSV datasets
+```
 
 ## Project documents
 
@@ -201,6 +202,10 @@ Packaged cleaned CSV datasets
 - `docs/KNOWN_LIMITATIONS.md`
 - `docs/DEPLOYMENT.md`
 
-## Build verification in this generated environment
+Deployment:
+- Vercel production frontend verified
+- Render production backend verified
+- HTTPS API integration verified
+- CORS verified
 
-The source was statically checked and the dataset was audited. Full `npm install` / Maven build could not be completed inside the generation sandbox because its package registry does not expose the required scoped npm packages and Maven is not installed there. Run the normal commands above on your machine; any compile/runtime issue found in that local check is exactly what we should debug next before deployment.
+The source was statically checked and the dataset was audited.
