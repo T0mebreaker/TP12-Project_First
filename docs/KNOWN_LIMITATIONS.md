@@ -21,7 +21,3 @@
 - live GPS
 
 These additions are not needed for the current acceptance criteria and would increase scope before the first review.
-
-## Design-source limitation in this handoff
-
-The current chat includes exported screenshots and the phase prompt documents, but not an inspectable Figma file/link with real node IDs and not the three referenced `DESIGN-*.md` source documents. Therefore this build follows the screenshots' visible structure and hierarchy, but it should **not** be described yet as pixel-perfect or node-verified Figma implementation. Once the actual Figma source is provided, do a visual pass without changing the accepted product flow or business rules.
