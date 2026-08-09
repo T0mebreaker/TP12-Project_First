@@ -53,12 +53,6 @@ The frontend does **not** calculate production route classification or historica
 
 The first goal is a zero-infrastructure review build using a small cleaned snapshot (~1.6 MB). Adding PostgreSQL or Redis now would create extra failure modes without improving the acceptance-criteria demonstration.
 
-For cloud release we can choose either:
-
-1. keep the immutable cleaned snapshot packaged in the backend for maximum demo reliability; or
-2. import the same cleaned tables into PostgreSQL and replace `DatasetRepository` with JPA/repository queries while keeping controllers/DTOs/frontend unchanged.
-
-Redis would only become useful if the project later has expensive route/provider calls or live data that benefits from caching.
 
 ## Route geometry boundary
 
