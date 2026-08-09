@@ -18,7 +18,10 @@ A review-ready full-stack MVP for the first FIT5120 project. It implements the a
 - Nearby public places filtered to Library / Park / Garden / Reserve, maximum three
 - Development demo scenarios for acceptance-criteria states
 - Frontend-only Mock mode as a presentation fallback
-- Docker files for later AWS/Azure VM deployment
+- - Production deployment:
+  - Frontend: Vercel
+  - Backend: Render
+- Docker configuration is retained as an optional alternative deployment method.
 
 ## Important prototype boundaries
 
@@ -170,17 +173,24 @@ backend/src/main/resources/data/
 
 See [docs/DATASET_USAGE.md](docs/DATASET_USAGE.md) for the audit and how each file is used.
 
-## Docker / cloud-preview build
+## Production Deployment
 
-A same-origin Nginx + Spring Boot Docker setup is included:
+The current production deployment uses separate frontend and backend hosting.
 
-```bash
-docker compose up -d --build
-```
-
-Then open `http://localhost`.
-
-This structure is suitable for a single AWS EC2 or Azure VM review deployment. See [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
+```text
+User Browser
+     |
+     v
+Vercel
+Vue 3 + Vite Frontend
+     |
+     | HTTPS REST API
+     v
+Render
+Spring Boot Backend
+     |
+     v
+Packaged cleaned CSV datasets
 
 ## Project documents
 
