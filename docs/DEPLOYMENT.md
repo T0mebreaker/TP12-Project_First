@@ -1,70 +1,102 @@
-# Deployment Handoff — AWS / Azure
+# Production Deployment
 
-Do this only after the local review build is accepted by the team.
+## 1. Deployment Architecture
 
-## Recommended first public deployment
+User
+  |
+  v
+Vercel
+Vue Frontend
+  |
+  | HTTPS REST API
+  v
+Render
+Spring Boot Backend
+  |
+  v
+Cleaned Historical Dataset
 
-Use one small Ubuntu VM (AWS EC2 or Azure VM) and Docker Compose:
+## 2. GitHub Repository
 
-```text
-Internet :80/:443
-      │
-      ▼
-Nginx / Vue static SPA
-      │ same-origin /api
-      ▼
-Spring Boot container :8080 (internal only)
-      │
-      ▼
-Packaged cleaned CSV snapshot
-```
+Repository structure:
 
-Why this is a good first course deployment:
+melbourne-sensory-aware-travel/
+├── frontend/
+├── backend/
+├── docs/
+└── README.md
 
-- one public URL
-- no CORS problem in normal browser traffic because Nginx proxies `/api`
-- no database server needed for the review snapshot
-- simple rollback/rebuild
-- easy to migrate the backend repository to PostgreSQL later without rewriting Vue
+The same GitHub repository is connected independently to Vercel and Render.
 
-## Local Docker check
+## 3. Frontend Deployment — Vercel
 
-```bash
-docker compose up -d --build
-docker compose ps
-```
+Root Directory:
+frontend
 
-Open `http://localhost`.
+Framework:
+Vite
 
-## AWS EC2 outline
+Build Command:
+npm run build
 
-1. Create a small Ubuntu EC2 instance.
-2. Security Group: allow SSH 22 from your IP; HTTP 80 and HTTPS 443 publicly.
-3. Install Docker Engine + Compose plugin.
-4. Copy/clone this repository to the VM.
-5. Run `docker compose up -d --build`.
-6. Verify `/api/health` through the public URL.
-7. Add HTTPS before final submission (domain + Certbot/Caddy/ALB, depending on team choice).
-8. Set `APP_DEMO_MODE=false` for the normal production endpoint. Keep presentation/demo scenarios only if the team explicitly wants them available.
+Output Directory:
+dist
 
-## Azure VM outline
+Environment Variables:
 
-Use the same container layout on an Ubuntu Azure VM. Open 80/443 in the Network Security Group, install Docker, then run the same Compose command.
+VITE_API_BASE_URL=https://<backend>.onrender.com
+VITE_USE_MOCK_DATA=false
 
-## Production environment checklist
+## 4. Backend Deployment — Render
 
-- `VITE_USE_MOCK_DATA=false`
-- frontend API base is `/api`
-- no API key/secret in frontend code
-- map tile URL + attribution configured
-- `APP_DEMO_MODE=false` unless intentional
-- SPA history fallback works on refresh
-- nested routes refresh correctly
-- `/api/health` responds
-- browser console has no blocking error
-- HTTPS has no mixed content
-- CORS is not overly broad if frontend/backend are deployed on different origins
+Root Directory:
+backend
 
-## If PostgreSQL is added later
+Runtime:
+Java 21 / Spring Boot
 
-Import the cleaned sensor/hour/minute/landmark data into normalised tables, add Spring Data JPA repositories, and replace only the current `DatasetRepository` implementation. Keep the REST DTOs and Vue service layer stable where possible.
+Environment Variables:
+
+APP_DEMO_MODE=false
+APP_ALLOWED_ORIGINS=https://<frontend>.vercel.app
+
+Health endpoint:
+
+GET /api/health
+
+## 5. CORS
+
+The Spring Boot backend only allows approved frontend origins.
+
+Local:
+http://localhost:5173
+
+Production:
+https://<frontend>.vercel.app
+
+## 6. Deployment Validation
+
+Verify:
+
+Frontend root URL loads
+Route search works
+Backend health endpoint responds
+Frontend can call backend
+CORS succeeds
+Leaflet tiles load
+Direct Vue routes refresh correctly
+HTTPS is enabled
+Browser back/forward works
+Production does not use Mock mode
+
+## 7. Update Workflow
+
+Local development
+→ Git commit
+→ GitHub push
+→ Vercel automatic frontend deployment
+→ Render automatic backend deployment
+
+## 8. Alternative Deployment
+
+Docker Compose remains available for AWS EC2 / Azure VM deployment but is not the primary deployment for the current FIT5120 build.
