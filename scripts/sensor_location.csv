@@ -1,7 +1,0 @@
-location_id,sensor_description,sensor_name,installation_date,note,location_type,status,direction_1,direction_2,latitude,longitude
-3,Melbourne Central,Swa295_T,2009-03-25,,Outdoor,A,North,South,-37.81101524,144.96429485
-5,Princes Bridge,PriNW_T,2009-03-26,Replace with: 00:6e:02:01:9e:54,Outdoor,A,North,South,-37.81874249,144.96787656
-9,Southern Cross Station,Col700_T,2009-03-23,,Outdoor,A,East,West,-37.81982992,144.95102555
-27,QV Market-Peel St,Vic_T,2013-08-16,,Outdoor,A,East,West,-37.80606888,144.95644692
-53,Collins Street (North),Col254_T,2015-09-23,,Outdoor,A,East,West,-37.81564191,144.965499
-1,Bourke Street Mall (North),Bou292_T,2009-03-24,,Outdoor,A,East,West,-37.81349441,144.96515323
