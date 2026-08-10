@@ -207,5 +207,6 @@ Deployment:
 - Render production backend verified
 - HTTPS API integration verified
 - CORS verified
+- URL:https://melbourne-sensory-travel-team12.vercel.app/
 
 The source was statically checked and the dataset was audited.
